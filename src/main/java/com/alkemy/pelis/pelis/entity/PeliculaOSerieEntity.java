@@ -5,12 +5,14 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PeliculaOSerie_id")
+@Table(name = "PeliculaOSerie")
 @Getter
 @Setter
 public class PeliculaOSerieEntity {
@@ -27,7 +29,10 @@ public class PeliculaOSerieEntity {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate fechaCreacion;
 
-    //calificacion (del 1 al 5)
+    //TODO: AGREGAR LIMITES DE MIN 1 Y MAX 5
+    @Min(1)
+    @Max(5)
+    private int calificacion;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "genero_id", insertable = false, updatable = false)
