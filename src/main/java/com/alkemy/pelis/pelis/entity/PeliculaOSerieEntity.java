@@ -29,7 +29,7 @@ public class PeliculaOSerieEntity {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate fechaCreacion;
 
-    //TODO: AGREGAR LIMITES DE MIN 1 Y MAX 5
+
     @Min(1)
     @Max(5)
     private int calificacion;

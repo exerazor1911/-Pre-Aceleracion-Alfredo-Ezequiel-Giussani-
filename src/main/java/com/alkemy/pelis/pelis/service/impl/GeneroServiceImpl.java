@@ -35,4 +35,8 @@ public class GeneroServiceImpl implements GeneroService {
 
        return result;
     }
+
+    public GeneroEntity buscarPorId (Long generoId) {
+        return generoRepository.findById(generoId).get();
+    }
 }

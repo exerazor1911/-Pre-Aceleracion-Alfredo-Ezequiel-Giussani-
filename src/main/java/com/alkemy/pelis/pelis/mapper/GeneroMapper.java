@@ -1,6 +1,7 @@
 package com.alkemy.pelis.pelis.mapper;
 
 import com.alkemy.pelis.pelis.dto.GeneroDTO;
+import com.alkemy.pelis.pelis.dto.PeliculaOSerieDTO;
 import com.alkemy.pelis.pelis.entity.GeneroEntity;
 import org.springframework.stereotype.Component;
 
@@ -34,4 +35,6 @@ public class GeneroMapper {
         }
         return listaDTO;
     }
+
+
 }
