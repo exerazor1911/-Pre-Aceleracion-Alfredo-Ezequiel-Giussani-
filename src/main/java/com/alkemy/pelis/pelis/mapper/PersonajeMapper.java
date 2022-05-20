@@ -53,4 +53,14 @@ public class PersonajeMapper {
         return dtos;
     }
 
+    public PersonajeEntity editEntity(PersonajeEntity entity, PersonajeDTO dto){
+
+    entity.setHistoria(dto.getHistoria());
+    entity.setEdad(dto.getEdad());
+    entity.setNombre(dto.getNombre());
+    entity.setImagen(dto.getImagen());
+    entity.setPeso(dto.getPeso());
+
+    return entity;
+    }
 }

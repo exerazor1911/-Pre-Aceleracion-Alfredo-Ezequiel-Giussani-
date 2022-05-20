@@ -49,4 +49,9 @@ public class PersonajeController {
         personajeService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonajeDTO> edit(@PathVariable Long id, @RequestBody PersonajeDTO dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(personajeService.edit(id,dto));
+    }
 }

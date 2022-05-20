@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface PersonajeService {
+
+    PersonajeDTO edit (Long id, PersonajeDTO dto);
     List<PersonajeDTO> getByFilters(String name, int age, Set<Long> movies, String order);
 
     List<PersonajeDTO> getAllPersonajes();

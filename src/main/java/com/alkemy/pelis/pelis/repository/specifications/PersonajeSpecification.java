@@ -37,12 +37,11 @@ public class PersonajeSpecification {
                         )
                 );
             }
-
+            //TODO: implementar filtrado de edad...
             if (filtersDTO.getAge() != 0) {
                 predicates.add(
                         criteriaBuilder.like(
-                                criteriaBuilder.equal(root.get("edad")),
-                                filtersDTO.getAge()
+                                criteriaBuilder.in(root.get("edad")).value(filtersDTO.getAge());
                         )
                 );
             }

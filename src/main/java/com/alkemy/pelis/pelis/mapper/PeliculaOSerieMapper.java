@@ -1,6 +1,7 @@
 package com.alkemy.pelis.pelis.mapper;
 
 
+import com.alkemy.pelis.pelis.dto.GeneroDTO;
 import com.alkemy.pelis.pelis.dto.PeliculaOSerieDTO;
 import com.alkemy.pelis.pelis.entity.GeneroEntity;
 import com.alkemy.pelis.pelis.entity.PeliculaOSerieEntity;
@@ -45,6 +46,17 @@ public class PeliculaOSerieMapper {
         entity.setCalificacion(dto.getCalificacion());
         entity.setGenero(genero);
         entity.setGeneroId(dto.getGeneroId());
+        return entity;
+    }
+
+    public PeliculaOSerieEntity editEntity(PeliculaOSerieEntity entity, PeliculaOSerieDTO dto) {
+        entity.setImagen(dto.getImagen());
+        entity.setTitulo(dto.getTitulo());
+        entity.setFechaCreacion(dto.getFechaCreacion());
+        entity.setCalificacion(dto.getCalificacion());
+        entity.setGeneroId(dto.getGeneroId());
+        entity.setGenero(generoMapper.generoDTO2Entity(dto.getGeneroDTO()));
+
         return entity;
     }
 }

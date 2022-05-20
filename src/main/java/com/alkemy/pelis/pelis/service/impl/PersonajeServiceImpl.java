@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -27,10 +28,20 @@ public class PersonajeServiceImpl implements PersonajeService {
     private PersonajeSpecification personajeSpecification;
 
     @Override
+    public PersonajeDTO edit(Long id, PersonajeDTO dto) {
+        Optional<PersonajeEntity> encontrado = personajeRepository.findById(id);
+        PersonajeEntity modificada = personajeMapper.editEntity(encontrado.get(), dto);
+        personajeRepository.save(modificada);
+        PersonajeDTO result = personajeMapper.personajeEntity2DTO(modificada);
+
+        return result;
+    }
+
+    @Override
     public List<PersonajeDTO> getByFilters(String name, int age, Set<Long> movies, String order) {
         PersonajeFiltersDTO filtersDTO = new PersonajeFiltersDTO(name,age,movies,order);
         List<PersonajeEntity> entities = personajeRepository.findAll(personajeSpecification.getByFilters(filtersDTO));
-        List<PersonajeDTO> dtos = personajeMapper.personajeEntitySet2DTOList(entities);
+        List<PersonajeDTO> dtos = personajeMapper.personajeEntityList2DTOList(entities);
 
         return dtos;
     }
