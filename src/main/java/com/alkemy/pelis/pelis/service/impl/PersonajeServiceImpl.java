@@ -3,6 +3,7 @@ package com.alkemy.pelis.pelis.service.impl;
 import com.alkemy.pelis.pelis.dto.PersonajeDTO;
 import com.alkemy.pelis.pelis.dto.PersonajeFiltersDTO;
 import com.alkemy.pelis.pelis.entity.PersonajeEntity;
+import com.alkemy.pelis.pelis.exception.ParamNotFound;
 import com.alkemy.pelis.pelis.mapper.PersonajeMapper;
 import com.alkemy.pelis.pelis.repository.PersonajeRepository;
 import com.alkemy.pelis.pelis.repository.specifications.PersonajeSpecification;
@@ -30,6 +31,10 @@ public class PersonajeServiceImpl implements PersonajeService {
     @Override
     public PersonajeDTO edit(Long id, PersonajeDTO dto) {
         Optional<PersonajeEntity> encontrado = personajeRepository.findById(id);
+        if (!encontrado.isPresent()) {
+            throw new ParamNotFound("ID de personaje no valido");
+        }
+
         PersonajeEntity modificada = personajeMapper.editEntity(encontrado.get(), dto);
         personajeRepository.save(modificada);
         PersonajeDTO result = personajeMapper.personajeEntity2DTO(modificada);
@@ -41,6 +46,10 @@ public class PersonajeServiceImpl implements PersonajeService {
     public List<PersonajeDTO> getByFilters(String name, int age, Set<Long> movies, String order) {
         PersonajeFiltersDTO filtersDTO = new PersonajeFiltersDTO(name,age,movies,order);
         List<PersonajeEntity> entities = personajeRepository.findAll(personajeSpecification.getByFilters(filtersDTO));
+        if (entities.size() == 0) {
+            throw new ParamNotFound("No se han encontrado personajes con esas especificaciones");
+        }
+
         List<PersonajeDTO> dtos = personajeMapper.personajeEntityList2DTOList(entities);
 
         return dtos;

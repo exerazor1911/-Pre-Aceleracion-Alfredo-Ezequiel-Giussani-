@@ -10,12 +10,12 @@ import java.util.Set;
 public class PeliculaOSerieFiltersDTO {
     private String name;
 
-    private Long genreId;
+    private Long genre;
     private String order;
 
-    public PeliculaOSerieFiltersDTO(String name, Long genreId, String order) {
+    public PeliculaOSerieFiltersDTO(String name, Long genre, String order) {
         this.name = name;
-        this.genreId = genreId;
+        this.genre = genre;
         this.order = order;
     }
 

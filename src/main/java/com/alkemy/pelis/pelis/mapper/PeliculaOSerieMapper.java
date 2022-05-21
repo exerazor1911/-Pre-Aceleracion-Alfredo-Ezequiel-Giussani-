@@ -55,7 +55,6 @@ public class PeliculaOSerieMapper {
         entity.setFechaCreacion(dto.getFechaCreacion());
         entity.setCalificacion(dto.getCalificacion());
         entity.setGeneroId(dto.getGeneroId());
-        entity.setGenero(generoMapper.generoDTO2Entity(dto.getGeneroDTO()));
 
         return entity;
     }

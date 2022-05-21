@@ -19,23 +19,23 @@ public class PersonajeController {
     @Autowired
     private PersonajeService personajeService;
 
+    @GetMapping(path = "/")
+    public ResponseEntity<List<PersonajeDTO>> getAll() {
+        List<PersonajeDTO> personajes =personajeService.getAllPersonajes();
+        return ResponseEntity.ok().body(personajes);
+    }
+
     @GetMapping
     public ResponseEntity<List<PersonajeDTO>> getDetailsByFilters(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) int age,
             @RequestParam(required = false) Set<Long> movies,
             @RequestParam(required = false, defaultValue = "ASC") String order
-            ) {
+    ) {
 
         List<PersonajeDTO> personajes = personajeService.getByFilters(name,age,movies,order);
 
-       return ResponseEntity.ok(personajes);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<PersonajeDTO>> getAll() {
-        List<PersonajeDTO> personajes =personajeService.getAllPersonajes();
-        return ResponseEntity.ok().body(personajes);
+        return ResponseEntity.ok(personajes);
     }
 
     @PostMapping

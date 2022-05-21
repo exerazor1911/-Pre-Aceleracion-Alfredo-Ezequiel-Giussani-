@@ -32,6 +32,15 @@ public class PeliculaOSerieServiceImpl implements PeliculaOSerieService {
     @Autowired
     private PeliculaOSerieSpecification peliculaOSerieSpecification;
 
+    @Override
+    public List<PeliculaOSerieDTO> getAllPeliculasOSeries() {
+        List<PeliculaOSerieEntity> entidades = peliculaOSerieRepository.findAll();
+
+        List<PeliculaOSerieDTO> peliculas = peliculaOSerieMapper.peliculaOSerieEntityList2DTOList(entidades);
+
+        return peliculas;
+    }
+
     public PeliculaOSerieDTO edit(Long id, PeliculaOSerieDTO dto) {
         Optional<PeliculaOSerieEntity> encontrada = peliculaOSerieRepository.findById(id);
         PeliculaOSerieEntity modificada = peliculaOSerieMapper.editEntity(encontrada.get(), dto);

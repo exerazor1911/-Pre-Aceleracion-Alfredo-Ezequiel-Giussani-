@@ -22,6 +22,12 @@ public class PeliculaOSerieController {
     @Autowired
     private PeliculaOSerieService peliculaOSerieService;
 
+    @GetMapping(path = "/")
+    public ResponseEntity<List<PeliculaOSerieDTO>> getAll() {
+        List<PeliculaOSerieDTO> peliculas = peliculaOSerieService.getAllPeliculasOSeries();
+        return ResponseEntity.ok().body(peliculas);
+    }
+
     @GetMapping
     public ResponseEntity<List<PeliculaOSerieDTO>> getDetailsByFilters(
             @RequestParam(required = false) String name,

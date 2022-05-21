@@ -11,7 +11,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Predicate;
+
+import javax.persistence.criteria.*;
 
 @Component
 public class PeliculaOSerieSpecification {
@@ -30,16 +31,23 @@ public class PeliculaOSerieSpecification {
                 );
             }
 
-            if(filtersDTO.getGenreId() != null && filtersDTO.getGenreId() != 0) {
+            if (filtersDTO.getGenre() != null && filtersDTO.getGenre() != 0) {
+                Expression<String> genero = root.get("generoId");
                 predicates.add(
-                        criteriaBuilder.in(root.get("genero_id")).value(filtersDTO.getGenreId());
-                )
+                        genero.in(filtersDTO.getGenre())
+                );
             }
 
-            if(filtersDTO.getGenreId() != null && filtersDTO.getGenreId() != 0) {
-                predicates.add(
-                        criteriaBuilder.
-                )
-            }
+            query.distinct(true);
+
+            String orderByField = "titulo";
+            query.orderBy(
+                    filtersDTO.isASC() ?
+                            criteriaBuilder.asc(root.get(orderByField)) :
+                            criteriaBuilder.desc(root.get(orderByField))
+            );
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 }

@@ -39,10 +39,10 @@ public class PersonajeSpecification {
             }
             //TODO: implementar filtrado de edad...
             if (filtersDTO.getAge() != 0) {
+                Expression<String> age = root.get("edad");
                 predicates.add(
-                        criteriaBuilder.like(
-                                criteriaBuilder.in(root.get("edad")).value(filtersDTO.getAge());
-                        )
+
+                        age.in(filtersDTO.getAge())
                 );
             }
 
@@ -53,6 +53,15 @@ public class PersonajeSpecification {
             }
 
             query.distinct(true);
+
+            String orderByField = "nombre";
+            query.orderBy(
+                    filtersDTO.isASC() ?
+                            criteriaBuilder.asc(root.get(orderByField)) :
+                            criteriaBuilder.desc(root.get(orderByField))
+            );
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 }
