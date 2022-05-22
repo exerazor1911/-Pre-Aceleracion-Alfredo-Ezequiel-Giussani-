@@ -16,8 +16,17 @@ import java.util.Set;
 @RequestMapping("characters")
 public class PersonajeController {
 
+
+
     @Autowired
     private PersonajeService personajeService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PersonajeDTO> getById(@PathVariable Long id) {
+        PersonajeDTO dto = personajeService.buscarPorId(id);
+
+        return ResponseEntity.ok().body(dto);
+    }
 
     @GetMapping(path = "/")
     public ResponseEntity<List<PersonajeDTO>> getAll() {

@@ -11,5 +11,9 @@ public interface GeneroService {
 
     List<GeneroDTO> getAllGeneros();
 
-    GeneroEntity buscarPorId (Long generoId);
+    GeneroDTO buscarPorId (Long generoId);
+
+    GeneroEntity buscarEntityPorId (Long id);
+
+    void delete(Long id);
 }

@@ -16,4 +16,6 @@ public interface PeliculaOSerieService {
     void delete (Long id);
 
     List<PeliculaOSerieDTO> getByFilters(String name, Long genre, String order);
+
+    PeliculaOSerieDTO buscarPorId(Long id);
 }

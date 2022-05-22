@@ -19,8 +19,16 @@ import java.util.Set;
 @RequestMapping("movies")
 public class PeliculaOSerieController {
 
+
     @Autowired
     private PeliculaOSerieService peliculaOSerieService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PeliculaOSerieDTO> getById(@PathVariable Long id) {
+        PeliculaOSerieDTO dto = peliculaOSerieService.buscarPorId(id);
+
+        return ResponseEntity.ok().body(dto);
+    }
 
     @GetMapping(path = "/")
     public ResponseEntity<List<PeliculaOSerieDTO>> getAll() {

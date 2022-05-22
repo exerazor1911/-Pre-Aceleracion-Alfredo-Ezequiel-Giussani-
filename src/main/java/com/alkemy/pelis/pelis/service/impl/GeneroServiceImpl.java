@@ -2,14 +2,15 @@ package com.alkemy.pelis.pelis.service.impl;
 
 import com.alkemy.pelis.pelis.dto.GeneroDTO;
 import com.alkemy.pelis.pelis.entity.GeneroEntity;
+import com.alkemy.pelis.pelis.exception.ParamNotFound;
 import com.alkemy.pelis.pelis.mapper.GeneroMapper;
 import com.alkemy.pelis.pelis.repository.GeneroRepository;
 import com.alkemy.pelis.pelis.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GeneroServiceImpl implements GeneroService {
@@ -36,7 +37,25 @@ public class GeneroServiceImpl implements GeneroService {
        return result;
     }
 
-    public GeneroEntity buscarPorId (Long generoId) {
-        return generoRepository.findById(generoId).get();
+    public GeneroDTO buscarPorId(Long id) {
+        Optional<GeneroEntity> entity = generoRepository.findById(id);
+        if (!entity.isPresent()) {
+            throw new ParamNotFound("Genre with the provided ID not found");
+        }
+        GeneroDTO dto = generoMapper.generoEntity2DTO(entity.get());
+        return dto;
     }
+
+    @Override
+    public GeneroEntity buscarEntityPorId(Long id) {
+        GeneroEntity entity = generoRepository.findById(id).get();
+        return entity;
+    }
+
+    @Override
+    public void delete(Long id) {
+        generoRepository.deleteById(id);
+    }
+
+
 }

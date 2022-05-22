@@ -4,6 +4,7 @@ import com.alkemy.pelis.pelis.dto.*;
 import com.alkemy.pelis.pelis.entity.GeneroEntity;
 import com.alkemy.pelis.pelis.entity.PeliculaOSerieEntity;
 import com.alkemy.pelis.pelis.entity.PersonajeEntity;
+import com.alkemy.pelis.pelis.exception.ParamNotFound;
 import com.alkemy.pelis.pelis.mapper.GeneroMapper;
 import com.alkemy.pelis.pelis.mapper.PeliculaOSerieMapper;
 import com.alkemy.pelis.pelis.repository.PeliculaOSerieRepository;
@@ -52,7 +53,7 @@ public class PeliculaOSerieServiceImpl implements PeliculaOSerieService {
 
     public PeliculaOSerieDTO save (PeliculaOSerieDTO dto) {
         Long generoId = dto.getGeneroId();
-        GeneroEntity genero = generoService.buscarPorId(generoId);
+        GeneroEntity genero = generoService.buscarEntityPorId(generoId);
         PeliculaOSerieEntity peliculaOSerieEntity = peliculaOSerieMapper.peliculaOSerieDTO2Entity(dto, genero);
         PeliculaOSerieEntity entidadGuardada = peliculaOSerieRepository.save(peliculaOSerieEntity);
         PeliculaOSerieDTO resultado = peliculaOSerieMapper.peliculaOSerieEntity2DTO(entidadGuardada);
@@ -72,5 +73,14 @@ public class PeliculaOSerieServiceImpl implements PeliculaOSerieService {
         List<PeliculaOSerieDTO> dtos = peliculaOSerieMapper.peliculaOSerieEntityList2DTOList(entities);
 
         return dtos;
+    }
+
+    @Override
+    public PeliculaOSerieDTO buscarPorId(Long id) {
+        Optional<PeliculaOSerieEntity> entity = peliculaOSerieRepository.findById(id);
+        if (!entity.isPresent()) {
+            throw new ParamNotFound("Movie or Serie with the provided ID not found");
+        }
+        return peliculaOSerieMapper.peliculaOSerieEntity2DTO(entity.get());
     }
 }

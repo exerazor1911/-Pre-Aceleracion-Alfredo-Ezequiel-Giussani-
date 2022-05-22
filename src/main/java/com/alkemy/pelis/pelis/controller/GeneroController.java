@@ -1,6 +1,7 @@
 package com.alkemy.pelis.pelis.controller;
 
 import com.alkemy.pelis.pelis.dto.GeneroDTO;
+import com.alkemy.pelis.pelis.entity.GeneroEntity;
 import com.alkemy.pelis.pelis.service.GeneroService;
 import com.alkemy.pelis.pelis.service.impl.GeneroServiceImpl;
 import org.apache.catalina.filters.ExpiresFilter;
@@ -24,11 +25,23 @@ public class GeneroController {
         return ResponseEntity.ok().body(generos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<GeneroDTO> getById(@PathVariable Long id) {
+        GeneroDTO dto = generoService.buscarPorId(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<GeneroDTO> save(@RequestBody GeneroDTO genero) {
         //save de genero
         GeneroDTO generoGuardado = generoService.save(genero);
         return ResponseEntity.status(HttpStatus.CREATED).body(generoGuardado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        generoService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

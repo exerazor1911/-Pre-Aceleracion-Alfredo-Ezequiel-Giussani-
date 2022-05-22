@@ -16,4 +16,6 @@ public interface PersonajeService {
 
     PersonajeDTO save(PersonajeDTO dto);
 
+    PersonajeDTO buscarPorId(Long id);
+
 }

@@ -77,4 +77,13 @@ public class PersonajeServiceImpl implements PersonajeService {
 
         return result;
     }
+
+    @Override
+    public PersonajeDTO buscarPorId(Long id) {
+        Optional<PersonajeEntity> entity = personajeRepository.findById(id);
+        if (!entity.isPresent()) {
+            throw new ParamNotFound("Character with the provided ID not found");
+        }
+        return personajeMapper.personajeEntity2DTO(entity.get());
+    }
 }
