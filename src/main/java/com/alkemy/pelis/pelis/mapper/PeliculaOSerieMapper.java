@@ -3,6 +3,7 @@ package com.alkemy.pelis.pelis.mapper;
 
 import com.alkemy.pelis.pelis.dto.GeneroDTO;
 import com.alkemy.pelis.pelis.dto.PeliculaOSerieDTO;
+import com.alkemy.pelis.pelis.dto.PersonajeDTO;
 import com.alkemy.pelis.pelis.entity.GeneroEntity;
 import com.alkemy.pelis.pelis.entity.PeliculaOSerieEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,10 @@ public class PeliculaOSerieMapper {
     @Autowired
     private GeneroMapper generoMapper;
 
-    public PeliculaOSerieDTO peliculaOSerieEntity2DTO(PeliculaOSerieEntity entity) {
+    @Autowired
+    private PersonajeMapper personajeMapper;
+
+    public PeliculaOSerieDTO peliculaOSerieEntity2DTO(PeliculaOSerieEntity entity, boolean loadPersonajes) {
         PeliculaOSerieDTO dto = new PeliculaOSerieDTO();
         dto.setId(entity.getId());
         dto.setCalificacion(entity.getCalificacion());
@@ -27,13 +31,18 @@ public class PeliculaOSerieMapper {
         dto.setGeneroId(entity.getGeneroId());
         dto.setGeneroDTO(generoMapper.generoEntity2DTO(entity.getGenero()));
 
+        if (loadPersonajes) {
+            List<PersonajeDTO> personajeDTOs = personajeMapper.personajeEntitySet2DTOList(entity.getPersonajes(), false);
+            dto.setPersonajes(personajeDTOs);
+        }
+
         return dto;
     }
 
-    public List<PeliculaOSerieDTO> peliculaOSerieEntityList2DTOList(List<PeliculaOSerieEntity> entities) {
+    public List<PeliculaOSerieDTO> peliculaOSerieEntityList2DTOList(List<PeliculaOSerieEntity> entities, boolean loadPersonajes) {
         List<PeliculaOSerieDTO> listaDTO = new ArrayList<>();
         for (PeliculaOSerieEntity p: entities) {
-            listaDTO.add(peliculaOSerieEntity2DTO(p));
+            listaDTO.add(peliculaOSerieEntity2DTO(p, loadPersonajes));
         }
         return listaDTO;
     }

@@ -65,4 +65,16 @@ public class PeliculaOSerieController {
         return ResponseEntity.status(HttpStatus.OK).body(peliculaOSerieService.edit(id,dto));
     }
 
+    @PostMapping("/{id}/characters/{idPersonaje}")
+    public ResponseEntity<Void> addPersonaje(@PathVariable Long id, @PathVariable Long idPersonaje) {
+        peliculaOSerieService.addPersonaje(id, idPersonaje);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
+    @DeleteMapping("/{id}/characters/{idPersonaje}")
+    public ResponseEntity<Void> removePersonaje(@PathVariable Long id, @PathVariable Long idPersonaje) {
+        peliculaOSerieService.removePersonaje(id, idPersonaje);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class PersonajeMapper {
@@ -27,7 +28,7 @@ public class PersonajeMapper {
     }
 
 
-    public PersonajeDTO personajeEntity2DTO(PersonajeEntity entity) {
+    public PersonajeDTO personajeEntity2DTO(PersonajeEntity entity, boolean loadPelis) {
         PersonajeDTO dto = new PersonajeDTO();
         dto.setId(entity.getId());
         dto.setImagen(entity.getImagen());
@@ -36,10 +37,10 @@ public class PersonajeMapper {
         dto.setPeso(entity.getPeso());
         dto.setHistoria(entity.getHistoria());
 
-        List<PeliculaOSerieDTO> peliculaOSerieDTO = peliculaOSerieMapper.peliculaOSerieEntityList2DTOList(entity.getPelisOSeries());
-        dto.setPeliculaOSeries(peliculaOSerieDTO);
-
-
+        if (loadPelis) {
+            List<PeliculaOSerieDTO> peliculaOSerieDTO = peliculaOSerieMapper.peliculaOSerieEntityList2DTOList(entity.getPelisOSeries(), false);
+            dto.setPeliculaOSeries(peliculaOSerieDTO);
+        }
         return dto;
     }
 
@@ -47,7 +48,7 @@ public class PersonajeMapper {
         List<PersonajeDTO> dtos = new ArrayList<>();
 
         for (PersonajeEntity p: entidades) {
-            dtos.add(personajeEntity2DTO(p));
+            dtos.add(personajeEntity2DTO(p, false));
         }
 
         return dtos;
@@ -62,5 +63,13 @@ public class PersonajeMapper {
     entity.setPeso(dto.getPeso());
 
     return entity;
+    }
+
+    public List<PersonajeDTO> personajeEntitySet2DTOList  (Set<PersonajeEntity> personajeEntities, boolean loadPelis) {
+        List<PersonajeDTO> listaDTOs = new ArrayList<>();
+        for (PersonajeEntity entity : personajeEntities) {
+            listaDTOs.add(personajeEntity2DTO(entity, loadPelis));
+        }
+        return listaDTOs;
     }
 }

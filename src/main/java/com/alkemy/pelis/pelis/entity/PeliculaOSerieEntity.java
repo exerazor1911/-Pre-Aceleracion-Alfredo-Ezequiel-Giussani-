@@ -2,6 +2,8 @@ package com.alkemy.pelis.pelis.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,9 +14,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PeliculaOSerie")
+@Table(name = "peliculaOSerie")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE peliculaOSerie SET deleted = true where id=?")
+@Where(clause = "deleted=false")
 public class PeliculaOSerieEntity {
 
     @Id
@@ -48,11 +52,15 @@ public class PeliculaOSerieEntity {
             }
     )
     @JoinTable(
-            name = "Personaje_PeliculaOSerie",
-            joinColumns = @JoinColumn(name = "PeliculaOSerie_id"),
-            inverseJoinColumns = @JoinColumn(name = "Personaje_id")
-    )
+            name = "personaje_peliculaOSerie",
+            joinColumns = @JoinColumn(name = "peliculaOSerie_id"),
+            inverseJoinColumns = @JoinColumn(name = "personaje_id"))
     private Set<PersonajeEntity> personajes = new HashSet<>();
 
+    private boolean deleted = Boolean.FALSE;
+
+    public void addPersonaje(PersonajeEntity p) {personajes.add(p);}
+
+    public void removePersonaje(PersonajeEntity p) {personajes.remove(p);}
 
 }

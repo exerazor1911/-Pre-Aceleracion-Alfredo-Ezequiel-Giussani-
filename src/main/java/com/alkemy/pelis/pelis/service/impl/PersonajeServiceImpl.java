@@ -2,11 +2,13 @@ package com.alkemy.pelis.pelis.service.impl;
 
 import com.alkemy.pelis.pelis.dto.PersonajeDTO;
 import com.alkemy.pelis.pelis.dto.PersonajeFiltersDTO;
+import com.alkemy.pelis.pelis.entity.PeliculaOSerieEntity;
 import com.alkemy.pelis.pelis.entity.PersonajeEntity;
 import com.alkemy.pelis.pelis.exception.ParamNotFound;
 import com.alkemy.pelis.pelis.mapper.PersonajeMapper;
 import com.alkemy.pelis.pelis.repository.PersonajeRepository;
 import com.alkemy.pelis.pelis.repository.specifications.PersonajeSpecification;
+import com.alkemy.pelis.pelis.service.PeliculaOSerieService;
 import com.alkemy.pelis.pelis.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class PersonajeServiceImpl implements PersonajeService {
     @Autowired
     private PersonajeSpecification personajeSpecification;
 
+    @Autowired
+    private PeliculaOSerieService peliculaOSerieService;
+
     @Override
     public PersonajeDTO edit(Long id, PersonajeDTO dto) {
         Optional<PersonajeEntity> encontrado = personajeRepository.findById(id);
@@ -37,7 +42,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 
         PersonajeEntity modificada = personajeMapper.editEntity(encontrado.get(), dto);
         personajeRepository.save(modificada);
-        PersonajeDTO result = personajeMapper.personajeEntity2DTO(modificada);
+        PersonajeDTO result = personajeMapper.personajeEntity2DTO(modificada, false);
 
         return result;
     }
@@ -73,7 +78,7 @@ public class PersonajeServiceImpl implements PersonajeService {
     public PersonajeDTO save(PersonajeDTO dto) {
         PersonajeEntity personajeEntity = personajeMapper.personajeDTO2Entity(dto);
         PersonajeEntity entitysaved = personajeRepository.save(personajeEntity);
-        PersonajeDTO result = personajeMapper.personajeEntity2DTO(entitysaved);
+        PersonajeDTO result = personajeMapper.personajeEntity2DTO(entitysaved, false);
 
         return result;
     }
@@ -84,6 +89,28 @@ public class PersonajeServiceImpl implements PersonajeService {
         if (!entity.isPresent()) {
             throw new ParamNotFound("Character with the provided ID not found");
         }
-        return personajeMapper.personajeEntity2DTO(entity.get());
+        return personajeMapper.personajeEntity2DTO(entity.get(), false);
+    }
+
+    @Override
+    public void addPeliculaOSerie(Long id, Long idPeliculaOSerie) {
+        PersonajeEntity entity = personajeRepository.getById(id);
+        entity.getPelisOSeries().size();
+        PeliculaOSerieEntity peliculaOSerieEntity = peliculaOSerieService.getEntityById(idPeliculaOSerie);
+        entity.addPeliOSerie(peliculaOSerieEntity);
+        personajeRepository.save(entity);
+    }
+
+    @Override
+    public void removePeliculaOSerie(Long id, Long idPeliculaOSerie) {
+        PersonajeEntity entity = personajeRepository.getById(id);
+        entity.getPelisOSeries().size();
+        PeliculaOSerieEntity peliculaOSerieEntity = peliculaOSerieService.getEntityById(idPeliculaOSerie);
+        entity.removePeliOSerie(peliculaOSerieEntity);
+        personajeRepository.save(entity);
+    }
+
+    public PersonajeEntity getEntityById(Long id) {
+        return personajeRepository.findById(id).get();
     }
 }
