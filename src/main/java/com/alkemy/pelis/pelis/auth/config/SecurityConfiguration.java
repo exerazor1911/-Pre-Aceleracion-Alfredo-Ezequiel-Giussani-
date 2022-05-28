@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    //TODO: TERMINAR ESTO, quede en 15:04
+
 
     @Autowired
     private UserDetailsCustomService userDetailsCustomService;

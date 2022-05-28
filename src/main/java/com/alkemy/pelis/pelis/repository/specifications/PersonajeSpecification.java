@@ -23,7 +23,7 @@ import java.util.Locale;
 @Component
 public class PersonajeSpecification {
 
-    //TODO: finish
+
     public Specification<PersonajeEntity> getByFilters(PersonajeFiltersDTO filtersDTO) {
         return (root, query, criteriaBuilder) -> {
 
@@ -37,7 +37,7 @@ public class PersonajeSpecification {
                         )
                 );
             }
-            //TODO: implementar filtrado de edad...
+
             if (filtersDTO.getAge() != 0) {
                 Expression<String> age = root.get("edad");
                 predicates.add(

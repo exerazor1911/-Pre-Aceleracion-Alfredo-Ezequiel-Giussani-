@@ -3,6 +3,7 @@ package com.alkemy.pelis.pelis.auth.service;
 import com.alkemy.pelis.pelis.auth.dto.UserDTO;
 import com.alkemy.pelis.pelis.auth.entity.UserEntity;
 import com.alkemy.pelis.pelis.auth.repository.UserRepository;
+import com.alkemy.pelis.pelis.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +37,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         userEntity.setPassword(userDTO.getPassword());
         userEntity = this.userRepository.save(userEntity);
         if (userEntity != null) {
-            emailService.sendWelcomeEmailTo(userEntity.getUserName());
+            emailService.sendWelcomeEmailTo(userEntity.getUsername());
         }
 
         return userEntity != null;
