@@ -12,6 +12,7 @@ import com.alkemy.pelis.pelis.service.PeliculaOSerieService;
 import com.alkemy.pelis.pelis.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -115,12 +116,14 @@ public class PersonajeServiceImpl implements PersonajeService {
 
     public Set<PersonajeEntity> buscarEntitiesPorId(Set<Long> personajesId) {
         Set<PersonajeEntity> personajes = new HashSet<>();
-        for (Long personajeId : personajesId) {
-            Optional<PersonajeEntity> p = personajeRepository.findById(personajeId);
-            if (!p.isPresent()) {
-                throw new ParamNotFound("Character with the provided ID not present");
+        if (!CollectionUtils.isEmpty(personajesId)) {
+            for (Long personajeId : personajesId) {
+                Optional<PersonajeEntity> p = personajeRepository.findById(personajeId);
+                if (!p.isPresent()) {
+                    throw new ParamNotFound("Character with the provided ID not present");
+                }
+                personajes.add(p.get());
             }
-            personajes.add(p.get());
         }
         return personajes;
     }

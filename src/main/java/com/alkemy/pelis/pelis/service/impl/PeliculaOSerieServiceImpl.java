@@ -64,6 +64,7 @@ public class PeliculaOSerieServiceImpl implements PeliculaOSerieService {
         PeliculaOSerieEntity entidadGuardada = peliculaOSerieRepository.save(peliculaOSerieEntity);
         PeliculaOSerieDTO resultado = peliculaOSerieMapper.peliculaOSerieEntity2DTO(entidadGuardada, true);
 
+
         for (PersonajeEntity p: personajes) {
             p.addPeliOSerie(peliculaOSerieEntity);
         }
