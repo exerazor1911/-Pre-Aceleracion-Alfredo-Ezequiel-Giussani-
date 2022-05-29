@@ -6,11 +6,14 @@ import com.alkemy.pelis.pelis.dto.PeliculaOSerieDTO;
 import com.alkemy.pelis.pelis.dto.PersonajeDTO;
 import com.alkemy.pelis.pelis.entity.GeneroEntity;
 import com.alkemy.pelis.pelis.entity.PeliculaOSerieEntity;
+import com.alkemy.pelis.pelis.entity.PersonajeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class PeliculaOSerieMapper {
@@ -47,7 +50,7 @@ public class PeliculaOSerieMapper {
         return listaDTO;
     }
 
-    public PeliculaOSerieEntity peliculaOSerieDTO2Entity(PeliculaOSerieDTO dto, GeneroEntity genero) {
+    public PeliculaOSerieEntity peliculaOSerieDTO2Entity(PeliculaOSerieDTO dto, GeneroEntity genero, Set<PersonajeEntity> personajes) {
         PeliculaOSerieEntity entity = new PeliculaOSerieEntity();
         entity.setImagen(dto.getImagen());
         entity.setTitulo(dto.getTitulo());
@@ -55,6 +58,10 @@ public class PeliculaOSerieMapper {
         entity.setCalificacion(dto.getCalificacion());
         entity.setGenero(genero);
         entity.setGeneroId(dto.getGeneroId());
+
+        if (!CollectionUtils.isEmpty(personajes)) {
+            entity.setPersonajes(personajes);
+        }
         return entity;
     }
 

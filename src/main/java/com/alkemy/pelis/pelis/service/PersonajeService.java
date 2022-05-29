@@ -25,4 +25,6 @@ public interface PersonajeService {
 
     PersonajeEntity getEntityById(Long id);
 
+    Set<PersonajeEntity> buscarEntitiesPorId(Set<Long> personajesId);
+
 }

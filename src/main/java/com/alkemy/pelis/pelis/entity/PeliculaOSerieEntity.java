@@ -57,6 +57,7 @@ public class PeliculaOSerieEntity {
             inverseJoinColumns = @JoinColumn(name = "personaje_id"))
     private Set<PersonajeEntity> personajes = new HashSet<>();
 
+
     private boolean deleted = Boolean.FALSE;
 
     public void addPersonaje(PersonajeEntity p) {personajes.add(p);}

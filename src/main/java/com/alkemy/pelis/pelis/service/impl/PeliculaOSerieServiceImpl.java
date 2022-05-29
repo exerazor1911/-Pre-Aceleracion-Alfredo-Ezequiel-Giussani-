@@ -58,10 +58,15 @@ public class PeliculaOSerieServiceImpl implements PeliculaOSerieService {
     public PeliculaOSerieDTO save (PeliculaOSerieDTO dto) {
         Long generoId = dto.getGeneroId();
         GeneroEntity genero = generoService.buscarEntityPorId(generoId);
-        PeliculaOSerieEntity peliculaOSerieEntity = peliculaOSerieMapper.peliculaOSerieDTO2Entity(dto, genero);
+        Set<Long> personajesId = dto.getPersonajesId();
+        Set<PersonajeEntity> personajes = personajeService.buscarEntitiesPorId(personajesId);
+        PeliculaOSerieEntity peliculaOSerieEntity = peliculaOSerieMapper.peliculaOSerieDTO2Entity(dto, genero, personajes);
         PeliculaOSerieEntity entidadGuardada = peliculaOSerieRepository.save(peliculaOSerieEntity);
-        PeliculaOSerieDTO resultado = peliculaOSerieMapper.peliculaOSerieEntity2DTO(entidadGuardada, false);
+        PeliculaOSerieDTO resultado = peliculaOSerieMapper.peliculaOSerieEntity2DTO(entidadGuardada, true);
 
+        for (PersonajeEntity p: personajes) {
+            p.addPeliOSerie(peliculaOSerieEntity);
+        }
         return resultado;
     }
 

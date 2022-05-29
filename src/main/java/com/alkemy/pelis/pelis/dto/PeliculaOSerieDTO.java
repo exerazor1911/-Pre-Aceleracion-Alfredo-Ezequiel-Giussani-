@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,6 +17,8 @@ public class PeliculaOSerieDTO {
     private int calificacion;
     private Long generoId;
     private GeneroDTO generoDTO;
+
+    private Set<Long> personajesId;
     List<PersonajeDTO> personajes;
 
 }
